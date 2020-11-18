@@ -37,6 +37,10 @@ edit docker-compose.dev.yml
 ```
 
 ## COMMAND INSTALL
+
+
+- Wait 5s
+
 ```
 bin/clinotty bin/magento setup:install \
   --db-host=db \
