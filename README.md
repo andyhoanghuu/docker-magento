@@ -1,7 +1,7 @@
 Setup: curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
 
 
-bin/magento setup:install \
+bin/clinotty bin/magento setup:install \
   --db-host=db \
   --db-name=magento \
   --db-user=magento \
