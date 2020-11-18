@@ -113,7 +113,7 @@ edit docker-compose.dev.yml
       # Linux only: remove the above lines and mount the entire src directory with:
       - ./src:/var/www/html:cached
 ```
--> bin/restart
+- bin/restart
 
 ## ADD EXTENSION
 
@@ -128,6 +128,8 @@ edit docker-compose.dev.yml
     depends_on: 
       - db
 ```
+- bin/restart
+
 
 > For more details on how everything works, see the extended [setup readme](https://github.com/markshust/docker-magento/blob/master/SETUP.md).
 
