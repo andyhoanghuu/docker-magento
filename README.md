@@ -38,6 +38,31 @@ bin/magento setup:install \
 
 
 
+echo "Turning on developer mode.."
+bin/clinotty bin/magento deploy:mode:set developer
+
+bin/clinotty bin/magento indexer:reindex
+
+echo "Forcing deploy of static content to speed up initial requests..."
+bin/clinotty bin/magento setup:static-content:deploy -f
+
+echo "Re-indexing with Elasticsearch..."
+bin/clinotty bin/magento indexer:reindex
+
+echo "Clearing the cache to apply updates..."
+bin/clinotty bin/magento cache:flush
+
+echo "Copying files from container to host after install..."
+bin/copyfromcontainer app
+bin/copyfromcontainer vendor
+
+echo "Generating SSL certificate..."
+bin/setup-ssl $BASE_URL
+
+echo "Docker development environment setup complete."
+echo "You may now access your Magento instance at https://${BASE_URL}/"
+
+
 ## Custom CLI Commands
 
 - `bin/bash`: Drop into the bash prompt of your Docker container. The `phpfpm` container should be mainly used to access the filesystem within Docker.
