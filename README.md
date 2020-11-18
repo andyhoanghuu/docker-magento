@@ -135,6 +135,25 @@ edit docker-compose.dev.yml
 - bin/restart
 
 
+## Xdebug
+edit docker-compose.yml add phpfpm:
+
+```
+environment:
+      PHP_IDE_CONFIG: serverName=localhost
+```
+
+```
+ex: 
+  phpfpm:
+    image: markoshust/magento-php:7.4-fpm-2
+    environment:
+      PHP_IDE_CONFIG: serverName=localhost
+    links:
+      - db
+    volumes: *appvolumes
+```
+
 > For more details on how everything works, see the extended [setup readme](https://github.com/markshust/docker-magento/blob/master/SETUP.md).
 
 
