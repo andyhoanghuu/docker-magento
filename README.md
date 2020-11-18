@@ -1,5 +1,42 @@
-Setup: curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
 
+
+## INIT DOCKER-MAGENTO
+
+- mkdir magentoee241
+- cd magentoee241
+```
+curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+```
+- mkdir src
+- unzip magento241.zip to folder src
+
+## WITH LINUX
+
+FIND docker-compose.dev.yml
+edit docker-compose.dev.yml
+
+```
+  app:
+    volumes: &appvolumes
+      # Host mounts with performance penalty, only put what is necessary here
+      # - ./src/app/code:/var/www/html/app/code:cached
+      # - ./src/app/design:/var/www/html/app/design:cached
+      # - ./src/app/etc:/var/www/html/app/etc:cached
+      # - ./src/composer.json:/var/www/html/composer.json:cached
+      # - ./src/composer.lock:/var/www/html/composer.lock:cached
+      # - ./src/nginx.conf.sample:/var/www/html/nginx.conf:cached
+      #- ./src/auth.json:/var/www/html/auth.json:cached
+      #- ./src/m2-hotfixes:/var/www/html/m2-hotfixes:cached
+      #- ./src/patches:/var/www/html/patches:cached
+      #- ./src/var/log:/var/www/html/var/log:cached
+      #- ./src/var/report:/var/www/html/var/report:cached
+      # To sync your SSH to the container, uncomment the following line:
+      #- ~/.ssh/id_rsa:/var/www/.ssh/id_rsa:cached
+      # Linux only: remove the above lines and mount the entire src directory with:
+      - ./src:/var/www/html:cached
+```
+
+## COMMAND INSTALL
 ```
 bin/clinotty bin/magento setup:install \
   --db-host=db \
@@ -38,8 +75,6 @@ bin/clinotty bin/magento setup:install \
 ```
 
 
-
-
 bin/clinotty bin/magento deploy:mode:set developer
 
 bin/clinotty bin/magento indexer:reindex
@@ -50,9 +85,47 @@ bin/clinotty bin/magento indexer:reindex
 
 bin/clinotty bin/magento cache:flush
 
-
 bin/setup-ssl magentoee241.docker
 
+
+## WITH LINUX
+
+FIND docker-compose.dev.yml
+edit docker-compose.dev.yml
+
+```
+  app:
+    volumes: &appvolumes
+      # Host mounts with performance penalty, only put what is necessary here
+      # - ./src/app/code:/var/www/html/app/code:cached
+      # - ./src/app/design:/var/www/html/app/design:cached
+      # - ./src/app/etc:/var/www/html/app/etc:cached
+      - ./src/composer.json:/var/www/html/composer.json:cached
+      - ./src/composer.lock:/var/www/html/composer.lock:cached
+      - ./src/nginx.conf.sample:/var/www/html/nginx.conf:cached
+      #- ./src/auth.json:/var/www/html/auth.json:cached
+      #- ./src/m2-hotfixes:/var/www/html/m2-hotfixes:cached
+      #- ./src/patches:/var/www/html/patches:cached
+      #- ./src/var/log:/var/www/html/var/log:cached
+      #- ./src/var/report:/var/www/html/var/report:cached
+      # To sync your SSH to the container, uncomment the following line:
+      #- ~/.ssh/id_rsa:/var/www/.ssh/id_rsa:cached
+      # Linux only: remove the above lines and mount the entire src directory with:
+      - ./src:/var/www/html:cached
+```
+-> bin/restart
+
+## ADD EXTENSION
+```
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports: 
+      - 81:80
+    depends_on: 
+      - db
+```
+
+> For more details on how everything works, see the extended [setup readme](https://github.com/markshust/docker-magento/blob/master/SETUP.md).
 
 
 ## Custom CLI Commands
@@ -189,5 +262,4 @@ Otherwise, this project now automatically sets up Xdebug support with VS Code. I
 
 8. Open up `src/pub/index.php`, and set a breakpoint near the end of the file. Go to `Run > Debug 'magento2.test'`, and open up a web browser. Ensure the Chrome Xdebug helper is enabled by clicking on it > Debug. Navigate to your Magento store URL, and Xdebug within PHPStorm should now trigger the debugger and pause at the toggled breakpoint.
 
-> For more details on how everything works, see the extended [setup readme](https://github.com/markshust/docker-magento/blob/master/SETUP.md).
 
