@@ -50,8 +50,7 @@ bin/clinotty bin/magento indexer:reindex
 
 bin/clinotty bin/magento cache:flush
 
-bin/copyfromcontainer app
-bin/copyfromcontainer vendor
+bin/copyfromcontainer src
 
 bin/setup-ssl magentoee241.docker
 
