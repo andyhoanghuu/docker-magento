@@ -116,6 +116,10 @@ edit docker-compose.dev.yml
 -> bin/restart
 
 ## ADD EXTENSION
+
+FIND docker-compose.dev.yml
+edit docker-compose.dev.yml
+
 ```
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
