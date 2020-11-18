@@ -1,19 +1,19 @@
 Setup: curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
 
-
+```
 bin/clinotty bin/magento setup:install \
   --db-host=db \
-  --db-name=magento \
+  --db-name=magentoee241 \
   --db-user=magento \
   --db-password=magento \
-  --base-url=https://magentoce241.docker/ \
-  --base-url-secure=https://magentoce241.docker/ \
+  --base-url=https://magentoee241.docker/ \
+  --base-url-secure=https://magentoee241.docker/ \
   --backend-frontname=admin \
   --admin-firstname=John \
   --admin-lastname=Smith \
   --admin-email=john.smith@gmail.com \
-  --admin-user=john.smith \
-  --admin-password=password123 \
+  --admin-user=admin \
+  --admin-password=123123q \
   --language=en_US \
   --currency=USD \
   --timezone=America/New_York \
@@ -35,32 +35,26 @@ bin/clinotty bin/magento setup:install \
   --search-engine=elasticsearch7 \
   --elasticsearch-host=elasticsearch \
   --use-rewrites=1
+```
 
 
 
-echo "Turning on developer mode.."
+
 bin/clinotty bin/magento deploy:mode:set developer
 
 bin/clinotty bin/magento indexer:reindex
 
-echo "Forcing deploy of static content to speed up initial requests..."
 bin/clinotty bin/magento setup:static-content:deploy -f
 
-echo "Re-indexing with Elasticsearch..."
 bin/clinotty bin/magento indexer:reindex
 
-echo "Clearing the cache to apply updates..."
 bin/clinotty bin/magento cache:flush
 
-echo "Copying files from container to host after install..."
 bin/copyfromcontainer app
 bin/copyfromcontainer vendor
 
-echo "Generating SSL certificate..."
-bin/setup-ssl $BASE_URL
+bin/setup-ssl magentoee241.docker
 
-echo "Docker development environment setup complete."
-echo "You may now access your Magento instance at https://${BASE_URL}/"
 
 
 ## Custom CLI Commands
