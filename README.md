@@ -144,7 +144,7 @@ environment:
 ```
 
 ```
-ex: 
+Exemple: 
   phpfpm:
     image: markoshust/magento-php:7.4-fpm-2
     environment:
